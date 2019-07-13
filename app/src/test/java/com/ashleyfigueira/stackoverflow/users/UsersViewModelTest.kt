@@ -9,9 +9,12 @@ import com.ashleyfigueira.domain.common.StackResult
 import com.ashleyfigueira.domain.entities.UserEntity
 import com.ashleyfigueira.domain.usecases.GetUsersUseCase
 import com.ashleyfigueira.stackoverflow.base.ScreenState
+import com.ashleyfigueira.stackoverflow.common.NetworkConnectivityHandler
 import com.jraska.livedata.test
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.Flowable
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import org.joda.time.DateTime
 import org.junit.After
 import org.junit.Before
@@ -26,14 +29,17 @@ import org.mockito.junit.MockitoJUnitRunner
 class UsersViewModelTest {
 
     private val getUsersUseCase: GetUsersUseCase = mock()
+    private val networkConnectivityHandler: NetworkConnectivityHandler = mock()
     private lateinit var usersViewModel: UsersViewModel
     private val lifecycleOwner: LifecycleOwner = mock()
+    private val networkObservable = PublishSubject.create<Any>()
 
     @get:Rule var rule: TestRule = InstantTaskExecutorRule()
 
     @Before
     fun setUp() {
-        usersViewModel = UsersViewModel(getUsersUseCase)
+        usersViewModel = UsersViewModel(networkConnectivityHandler, getUsersUseCase)
+        whenever(networkConnectivityHandler.listen()).thenReturn(networkObservable.startWith(Any()))
     }
 
     @After
@@ -96,6 +102,28 @@ class UsersViewModelTest {
             .assertNever { it is ScreenState.Error }
 
         verify(getUsersUseCase).invoke(anyInt(), any())
+    }
+
+    @Test
+    fun testGivenITurnOnNetworkAfter_thenAutoLoad() {
+        whenever(getUsersUseCase(anyInt(), any())).thenReturn(Flowable.just(StackResult.Failure(StackError.Offline(Exception()))))
+
+        val testObserver = usersViewModel.screenState.test()
+
+        usersViewModel.onCreate(lifecycleOwner)
+
+        //No internet connection screen
+        testObserver.assertValue { it is ScreenState.NoInternet }
+
+        whenever(getUsersUseCase(anyInt(), any())).thenReturn(Flowable.just(StackResult.Success(users())))
+
+        //Network comes back online and onNext is called
+        networkObservable.onNext(Any())
+
+        //Success state is now the current screen
+        testObserver.assertValue { it is ScreenState.Success }
+
+        verify(getUsersUseCase, times(2)).invoke(anyInt(), any())
     }
 
 
