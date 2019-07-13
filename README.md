@@ -22,14 +22,13 @@ view
 
 # Architecture 
 
-The app follows a clean architecture pattern with 3 layers (data, domain and ui (app)). 
-The domain layer is where the entities and use cases are, ie, GetUsersUseCase or UserEntity.
-The data layer is where all the logic behind fetching and persisting is included. 
-The data layer uses the repository pattern and takes advantages of Retrofit and Room.
-In the UI layer view models are being used to abstract the presentation logic away from the actual fragments.
-For the UI layer a sealed class is used to describe the state of the screen, called ScreenState.
-
-Uses cases, repositories and view models are tested.
+The app follows a clean architecture pattern with 3 layers (data, domain and ui (app)).  
+The domain layer is where the entities and use cases are, ie, GetUsersUseCase or UserEntity.  
+The data layer is where all the logic behind fetching and persisting is included.  
+The data layer uses the repository pattern and takes advantages of Retrofit and Room.  
+In the UI layer view models are being used to abstract the presentation logic away from the actual fragments.  
+For the UI layer a sealed class is used to describe the state of the screen, called ScreenState.  
+Uses cases, repositories and view models are unit tested.  
 
 # Libraries and tools
 
