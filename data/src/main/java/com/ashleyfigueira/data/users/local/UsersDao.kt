@@ -12,7 +12,7 @@ interface UsersDao {
     fun insertUsers(users: List<UserRoomEntity>): Completable
 
     @Query("SELECT * from Users")
-    fun getUsers(): Single<List<UserRoomEntity>>
+    fun getUsers(): Flowable<List<UserRoomEntity>>
 
     @Query("SELECT * from Users WHERE id = :id")
     fun getUser(id: Long): Flowable<UserRoomEntity>

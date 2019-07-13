@@ -38,7 +38,7 @@ class UsersRepositoryImplTest {
     @Before
     fun setUp() {
         whenever(usersDao.insertUsers(anyList())).thenReturn(Completable.complete())
-        whenever(usersDao.getUsers()).thenReturn(Single.just(roomUsers()))
+        whenever(usersDao.getUsers()).thenReturn(Flowable.just(roomUsers()))
         whenever(usersService.getUsers(anyInt(), anyString(), anyString(), anyString())).thenReturn(Single.just(usersResponse()))
 
         usersRepository = UsersRepositoryImpl(usersDao, usersService, errorMapper, usersEntityMapper, orderEntityMapper)
@@ -63,7 +63,7 @@ class UsersRepositoryImplTest {
 
     @Test
     fun testGivenWeHaveNoUsersInDb_thenReturnFromNetwork_andSaveToDb() {
-        whenever(usersDao.getUsers()).thenReturn(Single.just(emptyList()))
+        whenever(usersDao.getUsers()).thenReturn(Flowable.just(emptyList()))
 
         usersRepository.getUsers(20, OrderEntity.Descending).test()
             .assertNoErrors()
@@ -77,9 +77,8 @@ class UsersRepositoryImplTest {
 
     @Test
     fun testGivenWeAreOfflineAndHaveNoUsersInDb_thenReturnAnOfflineError() {
-        whenever(usersDao.getUsers()).thenReturn(Single.error(EmptyResultSetException("No events in database!")))
+        whenever(usersDao.getUsers()).thenReturn(Flowable.error(EmptyResultSetException("No events in database!")))
         whenever(usersService.getUsers(anyInt(), anyString(), anyString(), anyString())).thenReturn(Single.error(UnknownHostException()))
-
 
         usersRepository.getUsers(20, OrderEntity.Descending).test()
             .assertNoErrors()

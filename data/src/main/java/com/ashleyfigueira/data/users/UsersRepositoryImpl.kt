@@ -13,7 +13,6 @@ import com.ashleyfigueira.domain.extensions.toResult
 import com.ashleyfigueira.domain.repositories.UsersRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Single
 import javax.inject.Inject
 
 class UsersRepositoryImpl @Inject constructor(
@@ -30,7 +29,7 @@ class UsersRepositoryImpl @Inject constructor(
             .onErrorReturn { errorMapper.mapFrom(it).toResult() }
     }
 
-    override fun getUsers(pageSize: Int, order: OrderEntity): Single<StackResult<List<UserEntity>>> {
+    override fun getUsers(pageSize: Int, order: OrderEntity): Flowable<StackResult<List<UserEntity>>> {
         val cache = usersDao.getUsers()
             .map {
                 if (it.isEmpty()) {
@@ -41,14 +40,21 @@ class UsersRepositoryImpl @Inject constructor(
             }
             .onErrorReturn { errorMapper.mapFrom(it).toResult() }
 
-        val networkWithSave = usersService.getUsers(pageSize, orderEntityMapper.mapFrom(order))
+        val networkWithSave = usersService
+            .getUsers(pageSize, orderEntityMapper.mapFrom(order))
             .map { usersEntityMapper.mapFrom(it).toResult() }
             .onErrorReturn { errorMapper.mapFrom(it).toResult() }
             .doOnStackSuccess { usersDao.insertUsers(usersEntityMapper.mapToRoom(it)).subscribe() }
+            .toFlowable()
 
-        return Single.concat(cache, networkWithSave)
-            .filter { it is StackResult.Success }
-            .firstOrError()
+        return cache
+            .concatMap {
+                if (it is StackResult.Success) {
+                    Flowable.just(it)
+                } else {
+                    networkWithSave
+                }
+            }
             .onErrorResumeNext(networkWithSave)
     }
 

@@ -1,6 +1,7 @@
 package com.ashleyfigueira.stackoverflow.base
 
 import androidx.lifecycle.*
+import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -27,13 +28,13 @@ abstract class BaseViewModel<V: ScreenState<*>> : ViewModel(), DefaultLifecycleO
         return this
     }
 
-    protected fun <T> Single<T>.addToLoadingState(): Single<T> {
+    protected fun <T> Flowable<T>.addToLoadingState(): Flowable<T> {
         return this
             .doOnSubscribe {
                 loadingMap[this] = true
                 notifyLoadingState(loadingMap.any { it.value })
             }
-            .doOnSuccess {
+            .doOnNext {
                 loadingMap[this] = false
                 notifyLoadingState(loadingMap.any { it.value })
             }

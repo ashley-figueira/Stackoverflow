@@ -31,6 +31,9 @@ fun <T> Maybe<T>.compose(schedulerProvider: SchedulerProvider): Maybe<T> {
 fun <T> Single<StackResult<T>>.doOnStackSuccess(onSuccess: ((T) -> Unit)) =
     doOnSuccess { if (it is StackResult.Success) onSuccess.invoke(it.data) }
 
+fun <T> Flowable<StackResult<T>>.doOnStackNext(onNext: ((T) -> Unit)) =
+    doOnNext { if (it is StackResult.Success) onNext.invoke(it.data) }
+
 fun <T> Single<StackResult<T>>.subscribeStackResult(onSuccess: ((T) -> Unit), onError: ((StackError) -> Unit)) =
     subscribeWith(object : DisposableSingleObserver<StackResult<T>>() {
         override fun onSuccess(result: StackResult<T>) {
