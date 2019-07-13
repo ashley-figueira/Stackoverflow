@@ -3,6 +3,10 @@
 Stackoverflow app that fetches a list of stackoverflow users and displays it in a screen. 
 It also includes a detail screen with the possability to follow a user and block a user.
 
+![](/sample/Screenshot_1563037062.png)
+![](/sample/Screenshot_1563037044.png)
+![](/sample/Screenshot_1563037108.png)
+
 # Goal
 
 - When the app is launched, the user should be able to see a list of the top 20 StackOverflow users
