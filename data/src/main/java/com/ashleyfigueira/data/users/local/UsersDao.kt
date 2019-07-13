@@ -1,0 +1,23 @@
+package com.ashleyfigueira.data.users.local
+
+import androidx.room.*
+import io.reactivex.Completable
+import io.reactivex.Single
+
+@Dao
+interface UsersDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertUsers(users: List<UserRoomEntity>): Completable
+
+    @Query("SELECT * from Users")
+    fun getUsers(): Single<List<UserRoomEntity>>
+
+    @Query("SELECT * from Users WHERE id = :id")
+    fun getUser(id: Long): Single<UserRoomEntity>
+
+    @Update
+    fun update(user: UserRoomEntity): Completable
+
+    @Delete
+    fun delete(user: UserRoomEntity): Completable
+}

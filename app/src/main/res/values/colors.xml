@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primaryColor">#2196f3</color>
+    <color name="primaryLightColor">#2196f3</color>
+    <color name="primaryDarkColor">#0D47A1</color>
+    <color name="secondaryColor">#000000</color>
+    <color name="secondaryLightColor">#2c2c2c</color>
+
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#ffffff</color>
+
+    <color name="gradient_start">#0D47A1</color>
+    <color name="gradient_end">#2196f3</color>
+</resources>

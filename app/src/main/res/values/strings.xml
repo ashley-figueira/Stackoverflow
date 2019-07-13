@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Stackoverflow</string>
+
+    <string name="empty_view_title">No Data Available</string>
+    <string name="empty_view_message">Nothing to show here at the moment. Check back later!</string>
+    <string name="nointernet_view_title">You have no internet connection! Please turn on wifi.</string>
+
+    <string name="error_timeout_message">Request timed out</string>
+    <string name="error_loading_failed_message">Loading data failed</string>
+    <string name="reputation">Reputation:</string>
+    <string name="id">ID:</string>
+    <string name="creation_date">Creation date:</string>
+    <string name="location">Location:</string>
+    <string name="follow">Follow</string>
+    <string name="block">Block</string>
+
+</resources>

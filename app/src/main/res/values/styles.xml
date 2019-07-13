@@ -1,0 +1,64 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="StackTheme" parent="Theme.MaterialComponents.DayNight">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorPrimaryVariant">@color/primaryLightColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryLightColor</item>
+        <item name="colorOnPrimary">@color/primaryTextColor</item>
+        <item name="colorOnSecondary">@color/secondaryTextColor</item>
+
+        <item name="android:windowBackground">@color/primaryDarkColor</item>
+        <item name="android:colorBackground">@color/primaryDarkColor</item>
+
+        <item name="collapsedTitleTextAppearance">@style/StackTheme.CollapsingToolbar.TextAppearance.Collapsed</item>
+        <item name="expandedTitleTextAppearance">@style/StackTheme.CollapsingToolbar.TextAppearance.Expanded</item>
+
+        <item name="materialButtonStyle">@style/StackTheme.MaterialButton</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="StackTheme.MaterialButton" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">6dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="iconTint">@null</item>
+    </style>
+
+    <style name="StackTheme.WhiteButton" parent="StackTheme.MaterialButton">
+        <item name="backgroundTint">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <!-- region CollapsingToolbar -->
+    <style name="StackTheme.CollapsingToolbar.TextAppearance.Collapsed" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="StackTheme.CollapsingToolbar.TextAppearance.Expanded" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="StackTheme.CollapsingToolbar.Dark" parent="Widget.Design.CollapsingToolbar">
+        <item name="collapsedTitleTextAppearance">@style/StackTheme.CollapsingToolbar.TextAppearance.Dark.Collapsed</item>
+        <item name="expandedTitleTextAppearance">@style/StackTheme.CollapsingToolbar.TextAppearance.Dark.Expanded</item>
+    </style>
+
+    <style name="StackTheme.CollapsingToolbar.TextAppearance.Dark.Collapsed" parent="StackTheme.CollapsingToolbar.TextAppearance.Collapsed">
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+
+    <style name="StackTheme.CollapsingToolbar.TextAppearance.Dark.Expanded" parent="StackTheme.CollapsingToolbar.TextAppearance.Expanded">
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+    <!-- endregion -->
+
+</resources>
