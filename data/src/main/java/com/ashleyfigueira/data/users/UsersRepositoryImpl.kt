@@ -13,9 +13,7 @@ import com.ashleyfigueira.domain.extensions.toResult
 import com.ashleyfigueira.domain.repositories.UsersRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Observable
 import io.reactivex.Single
-import java.lang.Exception
 import javax.inject.Inject
 
 class UsersRepositoryImpl @Inject constructor(

@@ -3,6 +3,7 @@ package com.ashleyfigueira.stackoverflow.userdetail
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.ashleyfigueira.stackoverflow.BR
 import com.ashleyfigueira.stackoverflow.R
 import com.ashleyfigueira.stackoverflow.base.BaseFragment
 import com.ashleyfigueira.stackoverflow.base.ScreenState
@@ -17,10 +18,11 @@ class UserDetailsFragment : BaseFragment<FragmentUserDetailsBinding, UserDetails
 
     override fun getLayoutResId(): Int = R.layout.fragment_user_details
 
-    override fun getBindingVariableId(): Int? = null
+    override fun getBindingVariableId(): Int? = BR.vm
 
     override fun initUi() {
         binding.followButton.setOnClickListener { viewModel.follow() }
+        binding.blockButton.setOnClickListener { viewModel.block() }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -36,6 +38,7 @@ class UserDetailsFragment : BaseFragment<FragmentUserDetailsBinding, UserDetails
                     binding.location.text = screenState.data.location
                     binding.userProfileImage.load(screenState.data.profileImageUrl, RequestOptions.circleCropTransform())
                     binding.followButton.text = if (screenState.data.isFollowing) getString(R.string.un_follow) else getString(R.string.follow)
+                    binding.blockButton.text = if (screenState.data.isBlocked) getString(R.string.unblock) else getString(R.string.block)
                 }
             }
         })

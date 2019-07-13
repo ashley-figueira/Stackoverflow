@@ -1,8 +1,5 @@
 package com.ashleyfigueira.data.users
 
-import org.junit.After
-import org.junit.Before
-
 import androidx.room.EmptyResultSetException
 import com.ashleyfigueira.data.common.ErrorMapper
 import com.ashleyfigueira.data.common.OrderEntityMapper
@@ -15,9 +12,13 @@ import com.ashleyfigueira.domain.common.StackResult
 import com.ashleyfigueira.domain.entities.OrderEntity
 import com.ashleyfigueira.domain.entities.UserEntity
 import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.any
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Single
 import org.joda.time.DateTime
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.*
@@ -93,7 +94,7 @@ class UsersRepositoryImplTest {
 
     @Test
     fun testGivenIFetchUserByIdThenReturnUserFromDb() {
-        whenever(usersDao.getUser(anyLong())).thenReturn(Single.just(roomUsers().first()))
+        whenever(usersDao.getUser(anyLong())).thenReturn(Flowable.just(roomUsers().first()))
 
         usersRepository.getUser(1L).test()
             .assertNoErrors()
@@ -105,7 +106,7 @@ class UsersRepositoryImplTest {
 
     @Test
     fun testGivenIFetchUserByIdAndNoUserIsInDb_thenThrowError() {
-        whenever(usersDao.getUser(anyLong())).thenReturn(Single.error(EmptyResultSetException("")))
+        whenever(usersDao.getUser(anyLong())).thenReturn(Flowable.error(EmptyResultSetException("")))
 
         usersRepository.getUser(1L).test()
             .assertNoErrors()
@@ -115,10 +116,21 @@ class UsersRepositoryImplTest {
         verify(usersDao).getUser(anyLong())
     }
 
+    @Test
+    fun testGivenIUpdateUser_ThenComplete() {
+        whenever(usersDao.update(any())).thenReturn(Completable.complete())
+
+        usersRepository.updateUser(users().first()).test()
+            .assertNoErrors()
+            .assertComplete()
+
+        verify(usersDao).update(any())
+    }
+
     companion object {
         fun users() = listOf(UserEntity(1, "name", 1234, "url", "location", DateTime.now(), false, false))
 
-        fun roomUsers() = listOf(UserRoomEntity(1,"name", 1234, "url", "location", DateTime.now().millis))
+        fun roomUsers() = listOf(UserRoomEntity(1,"name", 1234, "url", "location", DateTime.now().millis, false, false))
 
         fun usersResponse() = UsersResponse(true, null, 1,1)
     }

@@ -3,6 +3,7 @@ package com.ashleyfigueira.stackoverflow.users
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ashleyfigueira.stackoverflow.BR
 import com.ashleyfigueira.stackoverflow.R
 import com.ashleyfigueira.stackoverflow.base.BaseFragment
 import com.ashleyfigueira.stackoverflow.base.ScreenState
@@ -18,7 +19,7 @@ class UsersFragment : BaseFragment<FragmentUsersBinding, UsersViewModel>() {
 
     override fun getLayoutResId(): Int = R.layout.fragment_users
 
-    override fun getBindingVariableId(): Int? = null
+    override fun getBindingVariableId(): Int? = BR.vm
 
     override fun initUi() {
         with(binding.recyclerView) {
@@ -27,7 +28,9 @@ class UsersFragment : BaseFragment<FragmentUsersBinding, UsersViewModel>() {
         }
 
         groupAdapter.setOnItemClickListener { item, _ ->
-            if (item is UserItem) navigateTo(UsersFragmentDirections.userDetails(item.userEntity.id))
+            if (item is UserItem && item.userEntity.isBlocked.not()) {
+                navigateTo(UsersFragmentDirections.userDetails(item.userEntity.id))
+            }
         }
     }
 

@@ -14,5 +14,6 @@
     <string name="follow">Follow</string>
     <string name="un_follow">Un-follow</string>
     <string name="block">Block</string>
+    <string name="unblock">Unblock</string>
 
 </resources>

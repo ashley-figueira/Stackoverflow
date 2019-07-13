@@ -19,7 +19,7 @@ class UsersViewModel @Inject constructor(
         getUsersUseCase()
             .addToLoadingState()
             .subscribeStackResult({ result ->
-                _screenState.value = if (result.isEmpty()) ScreenState.empty() else ScreenState.success(result)
+                _screenState.value = if (result.isEmpty()) ScreenState.empty() else ScreenState.success(result.sortedBy { it.reputation }.reversed())
             }, { error ->
                 _screenState.value = when (error) {
                     is StackError.Offline -> ScreenState.noInternet()
