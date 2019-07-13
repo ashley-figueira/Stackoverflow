@@ -12,6 +12,7 @@
     <string name="creation_date">Creation date:</string>
     <string name="location">Location:</string>
     <string name="follow">Follow</string>
+    <string name="un_follow">Un-follow</string>
     <string name="block">Block</string>
 
 </resources>

@@ -11,5 +11,7 @@ data class UserRoomEntity(
     @ColumnInfo(name = "reputation") val reputation: Long,
     @ColumnInfo(name = "profileImageUrl") val profileImageUrl: String,
     @ColumnInfo(name = "location") val location: String,
-    @ColumnInfo(name = "creationDate") val creationDate: Long
+    @ColumnInfo(name = "creationDate") val creationDate: Long,
+    @ColumnInfo(name = "isFollowing") val isFollowing: Boolean,
+    @ColumnInfo(name = "isBlocked") val isBlocked: Boolean
 )

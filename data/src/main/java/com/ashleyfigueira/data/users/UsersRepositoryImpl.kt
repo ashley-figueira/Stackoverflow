@@ -11,6 +11,9 @@ import com.ashleyfigueira.domain.entities.UserEntity
 import com.ashleyfigueira.domain.extensions.doOnStackSuccess
 import com.ashleyfigueira.domain.extensions.toResult
 import com.ashleyfigueira.domain.repositories.UsersRepository
+import io.reactivex.Completable
+import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 import java.lang.Exception
 import javax.inject.Inject
@@ -23,7 +26,7 @@ class UsersRepositoryImpl @Inject constructor(
     private val orderEntityMapper: OrderEntityMapper
 ) : UsersRepository {
 
-    override fun getUser(id: Long): Single<StackResult<UserEntity>> {
+    override fun getUser(id: Long): Flowable<StackResult<UserEntity>> {
         return usersDao.getUser(id)
             .map { usersEntityMapper.mapFromRoom(it).toResult() }
             .onErrorReturn { errorMapper.mapFrom(it).toResult() }
@@ -51,4 +54,7 @@ class UsersRepositoryImpl @Inject constructor(
             .onErrorResumeNext(networkWithSave)
     }
 
+    override fun updateUser(userEntity: UserEntity): Completable {
+        return usersDao.update(usersEntityMapper.mapToRoom(userEntity))
+    }
 }

@@ -32,8 +32,8 @@ class UsersEntityMapper @Inject constructor() : Mapper<UsersResponse, List<UserE
                 it.profileImageUrl,
                 it.location,
                 DateTime(it.creationDate),
-                false,
-                false
+                it.isFollowing,
+                it.isBlocked
             )
         }
     }
@@ -46,8 +46,8 @@ class UsersEntityMapper @Inject constructor() : Mapper<UsersResponse, List<UserE
             from.profileImageUrl,
             from.location,
             DateTime(from.creationDate),
-            false,
-            false
+            from.isFollowing,
+            from.isBlocked
         )
     }
 
@@ -59,8 +59,23 @@ class UsersEntityMapper @Inject constructor() : Mapper<UsersResponse, List<UserE
                 it.reputation,
                 it.profileImageUrl,
                 it.location,
-                it.creationDate.millis
+                it.creationDate.millis,
+                it.isFollowing,
+                it.isBlocked
             )
         }
+    }
+
+    fun mapToRoom(from: UserEntity): UserRoomEntity {
+        return UserRoomEntity(
+            from.id,
+            from.name,
+            from.reputation,
+            from.profileImageUrl,
+            from.location,
+            from.creationDate.millis,
+            from.isFollowing,
+            from.isBlocked
+        )
     }
 }

@@ -19,7 +19,9 @@ class UserDetailsFragment : BaseFragment<FragmentUserDetailsBinding, UserDetails
 
     override fun getBindingVariableId(): Int? = null
 
-    override fun initUi() {}
+    override fun initUi() {
+        binding.followButton.setOnClickListener { viewModel.follow() }
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -33,6 +35,7 @@ class UserDetailsFragment : BaseFragment<FragmentUserDetailsBinding, UserDetails
                     binding.creationDate.text = screenState.data.creationDate.getFormattedDate()
                     binding.location.text = screenState.data.location
                     binding.userProfileImage.load(screenState.data.profileImageUrl, RequestOptions.circleCropTransform())
+                    binding.followButton.text = if (screenState.data.isFollowing) getString(R.string.un_follow) else getString(R.string.follow)
                 }
             }
         })

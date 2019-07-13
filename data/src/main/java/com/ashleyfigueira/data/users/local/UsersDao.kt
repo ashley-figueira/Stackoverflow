@@ -2,6 +2,8 @@ package com.ashleyfigueira.data.users.local
 
 import androidx.room.*
 import io.reactivex.Completable
+import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 
 @Dao
@@ -13,7 +15,7 @@ interface UsersDao {
     fun getUsers(): Single<List<UserRoomEntity>>
 
     @Query("SELECT * from Users WHERE id = :id")
-    fun getUser(id: Long): Single<UserRoomEntity>
+    fun getUser(id: Long): Flowable<UserRoomEntity>
 
     @Update
     fun update(user: UserRoomEntity): Completable

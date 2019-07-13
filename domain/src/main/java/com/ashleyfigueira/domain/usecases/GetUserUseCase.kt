@@ -9,5 +9,7 @@ class GetUserUseCase @Inject constructor(
     private val usersRepository: UsersRepository,
     private val schedulerProvider: SchedulerProvider
 ) {
-    operator fun invoke(id: Long) = usersRepository.getUser(id).compose(schedulerProvider)
+    operator fun invoke(id: Long) = usersRepository.getUser(id)
+        .distinctUntilChanged()
+        .compose(schedulerProvider)
 }
