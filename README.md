@@ -28,7 +28,11 @@ The data layer is where all the logic behind fetching and persisting is included
 The data layer uses the repository pattern and takes advantages of Retrofit and Room.  
 In the UI layer view models are being used to abstract the presentation logic away from the actual fragments.  
 For the UI layer a sealed class is used to describe the state of the screen, called ScreenState.  
+
 Uses cases, repositories and view models are unit tested.  
+
+The project uses heavily RxJava and the observable pattern to automatically updated users when something has changed. 
+For example, when user starts following someone the list is automatically updated.
 
 # Libraries and tools
 
