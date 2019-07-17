@@ -24,18 +24,7 @@ class UsersEntityMapper @Inject constructor() : Mapper<UsersResponse, List<UserE
     }
 
     fun mapFromRoom(from: List<UserRoomEntity>): List<UserEntity> {
-        return from.map {
-            UserEntity(
-                it.id,
-                it.name,
-                it.reputation,
-                it.profileImageUrl,
-                it.location,
-                DateTime(it.creationDate),
-                it.isFollowing,
-                it.isBlocked
-            )
-        }
+        return from.map { mapFromRoom(it) }
     }
 
     fun mapFromRoom(from: UserRoomEntity): UserEntity {
@@ -52,18 +41,7 @@ class UsersEntityMapper @Inject constructor() : Mapper<UsersResponse, List<UserE
     }
 
     fun mapToRoom(from: List<UserEntity>): List<UserRoomEntity> {
-        return from.map {
-            UserRoomEntity(
-                it.id,
-                it.name,
-                it.reputation,
-                it.profileImageUrl,
-                it.location,
-                it.creationDate.millis,
-                it.isFollowing,
-                it.isBlocked
-            )
-        }
+        return from.map { mapToRoom(it) }
     }
 
     fun mapToRoom(from: UserEntity): UserRoomEntity {
